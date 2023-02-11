@@ -8,35 +8,47 @@
         mc:Ignorable="d"
         Title="Tasks Manager" Height="600" Width="1000" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
     <TabControl x:Name="tabControl">
-        <TabItem Header="Tasks">
+        <TabItem Header="Tickets" HorizontalAlignment="Left" Margin="-2,-2,0,0" Width="43">
             <Grid Background="#FFE5E5E5">
-                <DataGrid Name="tasksGrid">
+                <DataGrid Name="tasksGrid" AutoGenerateColumns="False" RowDetailsVisibilityMode="VisibleWhenSelected" ItemsSource="{Binding Tickets}">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Título" Binding="{Binding Path=Title}" Width="250"></DataGridTextColumn>
-                        <DataGridTextColumn Header="Descrição" Binding="{Binding Path=Description}" Width="550"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Número" Binding="{Binding Path=Number}" Width="70"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Título" Binding="{Binding Path=Title}" Width="210"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Descrição" Binding="{Binding Path=Description}" Width="400"></DataGridTextColumn>
                         <DataGridTextColumn Header="Tempo" Binding="{Binding Path=TimeSpan}" Width="200"></DataGridTextColumn>
+                        <DataGridCheckBoxColumn Header="Concluído" Binding="{Binding Path=Done, Mode=OneWay}" Width="90" IsReadOnly="True"></DataGridCheckBoxColumn>
                     </DataGrid.Columns>
+                    <DataGrid.RowDetailsTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <DataGrid Padding="60,0,0,0" AutoGenerateColumns="False" RowDetailsVisibilityMode="VisibleWhenSelected" ItemsSource="{Binding Path=Tasks}">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="Tarefa" Binding="{Binding Path=Description}" Width="613"></DataGridTextColumn>
+                                        <DataGridTextColumn Header="Tempo" Binding="{Binding Path=TimeSpan}" Width="200"></DataGridTextColumn>
+                                        <DataGridCheckBoxColumn Header="Concluído" Binding="{Binding Path=Done}" Width="89"></DataGridCheckBoxColumn>
+                                    </DataGrid.Columns>
+                                    <DataGrid.RowDetailsTemplate>
+                                        <DataTemplate>
+                                            <Grid>
+                                                <DataGrid Padding="60,0,0,0" ItemsSource="{Binding Path=SubTasks}" AutoGenerateColumns="False">
+                                                    <DataGrid.Columns>
+                                                        <DataGridTextColumn Header="SubTarefa" Binding="{Binding Path=Description}" Width="545"></DataGridTextColumn>
+                                                        <DataGridTextColumn Header="Tempo" Binding="{Binding Path=TimeSpan}" Width="200"></DataGridTextColumn>
+                                                        <DataGridCheckBoxColumn Header="Concluído" Binding="{Binding Path=Done}" Width="89"></DataGridCheckBoxColumn>
+                                                    </DataGrid.Columns>
+                                                </DataGrid>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </DataGrid.RowDetailsTemplate>
+                                </DataGrid>
+                            </Grid>
+                        </DataTemplate>
+                    </DataGrid.RowDetailsTemplate>
                 </DataGrid>
             </Grid>
         </TabItem>
         <TabItem Header="Teste">
-            <Grid Background="#FFE5E5E5">
-                <Button Content="Button" HorizontalAlignment="Left" Margin="162,226,0,0" VerticalAlignment="Top" Width="99" Click="Button_Click"/>
-            </Grid>
+            <Grid Background="#FFE5E5E5"/>
         </TabItem>
     </TabControl>
-
-    <Window.Resources>
-        <DataTemplate x:Key="myTaskTemplate">
-            <Grid>
-                <DataGrid ItemsSource="{Binding Path=SubTasks}">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="Título" Binding="{Binding Path=Title}" Width="250"></DataGridTextColumn>
-                        <DataGridTextColumn Header="Descrição" Binding="{Binding Path=Description}" Width="550"></DataGridTextColumn>
-                        <DataGridTextColumn Header="Tempo" Binding="{Binding Path=TimeSpan}" Width="200"></DataGridTextColumn>
-                    </DataGrid.Columns>
-                </DataGrid>
-            </Grid>
-        </DataTemplate>
-    </Window.Resources>
 </Window>

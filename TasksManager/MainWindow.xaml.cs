@@ -23,38 +23,20 @@ namespace TasksManager
     /// </summary>
     public partial class MainWindow : Window
     {
-        private List<TasksManagerLib.Task> _tasks = new List<TasksManagerLib.Task>();
         public MainWindow()
         {
             InitializeComponent();
             ApllyControlsRules();
-
-
-
-            this.tasksGrid.ItemsSource = _tasks;
-            this.tasksGrid.RowDetailsTemplate = this.FindResource("myTaskTemplate") as DataTemplate;
-
-            //this.tasksGrid.LoadingRowDetails += TasksGrid_LoadingRowDetails;
-            _tasks.Add(new TasksManagerLib.Task()
-            {
-                Description = "Teste",
-                SubTasks = new List<SubTask>() { new SubTask() { Description = "alo" } }
-            });
         }
-
-        //private void TasksGrid_LoadingRowDetails(object? sender, DataGridRowDetailsEventArgs e)
-        //{
-        //    e.DetailsElement.DataContext = ((TasksManagerLib.Task)(e.Row.Item)).SubTasks;
-        //}
 
         private void ApllyControlsRules()
         {
-            this.tasksGrid.RowDetailsVisibilityMode = DataGridRowDetailsVisibilityMode.Visible;
+            DataContext = new MainWindowDataContext();    
         }
+    }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            Console.WriteLine("teste");
-        }
+    internal class MainWindowDataContext
+    {
+        public List<Ticket> Tickets { get; set; } = new();
     }
 }
